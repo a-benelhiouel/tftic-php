@@ -29,7 +29,6 @@ echo "<h2>Tables de 1 à 9</h2><table class='tables'>
     echo "<tr class='table'><th>Table de $operand</th>";
         for($multiplier = 1; $multiplier <=10; $multiplier++ ) {
             echo "<td> $operand * $multiplier = " . $operand * $multiplier . "</td>";
-            $multiplier++;
         }
     echo "</tr>";
     }
