@@ -33,7 +33,7 @@
                 echo "I";
             }
         else {
-            echo "Note invalide";
+            echo "<p style='color: red;'>Note invalide</p>";
         }
         }
 

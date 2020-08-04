@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Table de 2</title>
+    <title>Table de 1 à 9</title>
     <style>
         body {
         }
@@ -17,7 +17,7 @@
     </style>
   </head>
   <body>
-    <h2>Tables de 1 à 10</h2>
+    <h2>Tables de 1 à 9</h2>
     <?php
 
     $operand = 1;
