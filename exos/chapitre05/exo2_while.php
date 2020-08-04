@@ -5,14 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Table de 1 à 9</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
+            display: flex;
+            flex-direction: column;
+        }
+        h2 {
+            margin: auto;
         }
         div.tables {
+            margin: auto;
             display: flex;
             flex-wrap: wrap;
+            max-width: 120ch;
         }
         div.table {
-            width= 25%;
+            width: 20ch;
+            border: medium solid darkblue;
+            padding: 1ch;
+            margin: 1ch;
         }
     </style>
   </head>
@@ -25,7 +38,7 @@
 
 echo "<div class='tables'>";
     while($operand <=9 ) {
-        echo "<div class='table'><h3>Tables de $operand</h3>";
+        echo "<div class='table'><h3>Table de $operand</h3>";
     echo "<ul>";
         while($multiplier <=10 ) {
             echo "<li>$operand * $multiplier = " . $operand * $multiplier . "</li>";

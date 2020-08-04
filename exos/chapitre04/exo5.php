@@ -18,19 +18,19 @@
         $note = $_POST["note"];
         
         if ($note >= 19 && $note <= 20){
-            echo "Excellent";
+            echo "<p style='color: green;'>Excellent</p>";
         }
         elseif ($note >= 16 && $note <= 18) {
-            echo "TB";
+            echo "<p style='color: green;'>TB</p>";
         }
         elseif ($note >= 13 && $note <= 16) {
-            echo "B";
+            echo "<p style='color: orange;'>B</p>";
         }
         elseif ($note >= 10 && $note <= 12) {
-            echo "S";
+            echo "<p style='color: orange;'>S</p>";
         }
         elseif ($note >=0 && $note<10) {
-                echo "I";
+                echo "<p style='color: red;'>I</p>";
             }
         else {
             echo "<p style='color: red;'>Note invalide</p>";
