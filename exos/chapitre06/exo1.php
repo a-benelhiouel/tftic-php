@@ -18,7 +18,7 @@ echo "<h2>Exo6.1</h2>";
     }
 
     foreach($myTab as $n) {
-        echo $n . "</br>";
+      echo $n . "</br>";
     }
 
 ?>

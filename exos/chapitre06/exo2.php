@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exo6.2</title>
     <style>
+    table {
+	display: table;
+    border: thick solid darkblue;
+}
+table tr {
+	display: table-cell;
+    border: medium solid darkblue;
+    }
+table tr td {    
+    border: thin solid darkblue;
+    min-width: 5ch;
+    }
     </style>
   </head>
   <body>
@@ -17,9 +29,11 @@ echo "<h2>Exo6.2</h2>";
         $myTab[$i] = $myTab[$i-1] * 2;
     }
 
+    echo "<table><tr>";
     foreach($myTab as $n) {
-        echo $n . "</br>";
-    }
+      echo "<td>$n</td>";
+    };
+    echo "</tr></table>";
 
 ?>
   </body>
