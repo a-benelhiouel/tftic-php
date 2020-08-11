@@ -9,6 +9,7 @@ $cold = 100;
 for($i= 0; $i < count($temperature); $i++) {
   $hot = $hot > $temperature[$i] ? $hot : $temperature[$i];
 }
+
 $cold = $hot;
 for($i= 0; $i < count($temperature); $i++) {
   $cold = $cold < $temperature[$i] ? $cold : $temperature[$i];

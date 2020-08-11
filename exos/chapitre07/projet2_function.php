@@ -1,62 +1,83 @@
+<?php
+
+$myTab = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"];
+$options = ["ascending", "descending"];
+
+function TableFromArray(array $array, array $header = [], $column = false) {
+  $table = "<table>";
+  for($i = 0; $i < count($header); $i++) {
+    $table .= ($i === 0 ? '<thead><tr>' : '') . "<th>$header[$i]</th>" . ($i === count($header) -1 ? '</tr></thead>' : '');
+  };
+  
+  foreach($array as $value) {
+      $table .= ($column ? '<tr>' : '') . "<td>$value</td>" . ($column ? '</tr>' : '');
+  };
+  $table .= "</table>";
+
+  return $table;
+}
+
+function RadioFromArray(array $array, string $name, $checked = '-') {
+  $radio = "";
+  $checked = isset($_POST[$name]) ? $_POST[$name] : $array[0];
+
+  for($i=0; $i < count($array); $i++) {
+      $radio .= "<label for=" . ($array[$i]) . " >" . ($array[$i]) . "</label>";
+      $radio .= "<input type='radio' id=" . ($array[$i]) . " name=" . ($name) . " value=" . ($array[$i]) . ($checked === $array[$i] ? ' checked' : '') . ">";
+  }
+
+  return $radio;
+}
+
+if (isset($_POST["sort"]) && ($_POST["sort"]) === "descending") {
+  $myArray = array_reverse($myTab);
+} else {
+  $myArray = $myTab;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-    *{
+   *{
         box-sizing: border-box;
     }
+    body {
+        display: grid;
+        gap: 1ch;
+        padding: 1ch;
+        margin: 1ch;
+        justify-items: center;
+    }
     table {
-	    display: table;
-        border: medium solid darkblue;
+        border: thick solid darkgreen;
+        margin: 4ch;
     }
-    table tr {
-        border: medium solid darkblue;
-    }
-    table tr:nth-child(1) {
-        border: medium solid red;
+    table tr th {
+        border: thin solid darkblue;
         background: lightgray;
         font-weight: bold;
     }
     table tr td {    
-        border: thin solid darkblue;
-        min-width: 2ch;
-        display: block;
+        border: thin solid darkred;
+        min-width: 3ch;
+        text-align: center;
     }
     </style>
-    <title>Exo6.12b</title>
+    <title>projet 2</title>
   </head>
   <body>
-    <h2>Exo6.12b</h2>
+    <h2>projet 2</h2>
     <h3>Le calendrier</h3>
     <p>Dans quel ordre souhaitez-vous qu'il s'affiche?</p>
-    <?php
-
-$myTab = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"];    
-
-echo "
     <form action='#' method='post'>
-    <label for='sortAsc'>Ascending</label>
-    <input type='radio' id='sortAsc' name='sortAsc' value='asc'>
-     <label for='sortDesc'>Descending</label>
-     <input type='radio' id='sortDesc' name='sortDesc' value='desc'>
-     <input type='submit' value='Sort'/>
+      <?= RadioFromArray($options, "sort") ?> 
+      <input type='submit' value='sort'/>
     </form>
-    ";
-
-echo "<table><tr><th>Mois de l'année</th></tr><tr>";
-if (isset($_POST["sortDesc"]) && ($_POST["sortDesc"]) === "desc") {
-    for($i= count($myTab)-1; $i >= 0; $i--) {
-      echo "<td>$myTab[$i]</td>";
-    };
-} else {
-    foreach($myTab as $n) {
-        echo "<td>$n</td>";
-      };
-}
-echo "</tr></table>";
-
-    ?>
+    <?= TableFromArray($myArray, ["Mois de l'année"], true) ?>
   </body>
 </html>

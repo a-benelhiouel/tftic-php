@@ -13,33 +13,72 @@ $calendar = "";
 $calendar.= "</tr></table>";
 $result = "";
 
-if(isset($_POST["month"]) && ($_POST["month"]) != "") {
-  $month = $_POST["month"];
-  $result = $nbDays[$month-1];
+function TableFromArray(array $body = [[]], array $header = [[]], $column = false) {
+  $rowStart = "<tr>";
+  $rowEnd = "</tr>";
+  $newRow = ($column ? "</tr><tr>" : "") ;
+
+  $table = "<table>";
+
+  
+
+  if($column) {
+    $table .= $rowStart;
+
+  for($i = 0; $i < count($header); $i++) {
+    foreach($header[$i] as $array) {
+      for($j = 0; $j < count($array); $j++) {
+        $table .= "<th>$array[$j]</th>";
+      }
+    }
+    $table .= ($i === count($header) -1 ? $rowEnd : "");
+  };
+
+  for($i = 0; $i < count($body); $i++) {
+    foreach($body[$i] as $array) {
+      for($j = 0; $j < count($array); $j++) {
+        $table .= "<td>$array[$j]</td>";
+      }
+    }
+    $table .= ($i === count($body) -1 ? $rowEnd : $newRow);
+  };
+
+  } else {
+
+  for($i = 0; $i < count($header); $i++) {
+    $table .= ($i === 0 ? $rowStart : '');
+    $table .= "<th>$header[$i]</th>";
+    $table .= ($i === count($header) -1 ? $rowEnd : "");
+  };
+  for($i = 0; $i < count($array); $i++) {
+    $table .= "<td>$array[$i]</td>";
+  };
+  }
+  
+  $table .= "</table>";
+
+  return $table;
 }
 
-$search=" <div class='search'>
-            <form action='#' method='post'>
-              <label for='month'>Action</label>
-              <select name='month' id='month'>
-                <option value=''></option>
-                <option value='1'>Janvier</option>
-                <option value='2'>Fevrier</option>
-                <option value='3'>Mars</option>
-                <option value='4'>Avril</option>
-                <option value='5'>Mai</option>
-                <option value='6'>Juin</option>
-                <option value='7'>Juillet</option>
-                <option value='8'>Aout</option>
-                <option value='9'>Septembre</option>
-                <option value='10'>Octobre</option>
-                <option value='11'>Novembre</option>
-                <option value='12'>Decembre</option>              
-              </select>
-              <input type='submit' value='Search'/>
-            </form>
-            <p>$result</p>
-          </div>";
+echo TableFromArray([[$months]], [["Mois de l'année", "Jours par mois"]], true);
+
+function SelectFromArray(array $array, string $name, string $id) {
+  $select = "
+  <label for=$id>$name</label>
+  <select name=$name id=$id>";
+  $selected = isset($_POST[$name]) ? $_POST[$name] : 0;
+  for($i=0; $i < count($array); $i++) {
+      $select .= "<option value=" . ($i) . ($selected === $i ? ' selected' : '') . " >" . ($array[$i]) . "</option>";
+  }
+  $select .= "</select>";
+
+  return $select;
+}
+
+if(isset($_POST["month"]) && ($_POST["month"]) != "") {
+  $month = $_POST["month"];
+  $result = $nbDays[$month];
+}
 
 ?>
 <!DOCTYPE html>
@@ -79,33 +118,36 @@ $search=" <div class='search'>
     div.search > * {
       margin: 0;
     }
+
+   *{
+        box-sizing: border-box;
+    }
+    body {
+        display: grid;
+        gap: 1ch;
+        padding: 1ch;
+        margin: 1ch;
+        justify-items: center;
+    }
     table {
-	    display: table;
-      border: medium solid darkblue;
-      width: 80%;
-      height: 80%;
-      margin: auto;
-      margin-bottom: 5ch;
+        border: thick solid darkgreen;
+        margin: 4ch;
     }
-    table tr {
-      border: medium solid darkblue;
-    }
-    table tr:nth-child(1) {
-      border: medium solid red;
-      background: lightgray;
-      font-weight: bold;
+    table tr th {
+        border: thin solid darkblue;
+        background: lightgray;
+        font-weight: bold;
     }
     table tr td {    
-      border: thin solid darkblue;
-      min-width: 2ch;
-      width: 50%;
-      text-align: center;
+        border: thin solid darkred;
+        min-width: 3ch;
+        text-align: center;
     }
     </style>
-    <title>Exo6.12c</title>
+    <title>projet 3_function</title>
   </head>
   <body>
-    <h2>Exo6.12c</h2>
+    <h2>projet 3_function</h2>
     <h3>Le calendrier</h3>
     <main class="main-content">
       <section class="calendar">
@@ -114,7 +156,13 @@ $search=" <div class='search'>
       </section>
       <section class="day-in-month">
         <h3>Rechercher le nombre de jour par mois :</h3>
-        <?= $search ?>
+        <div class='search'>
+            <form action='#' method='post'>
+              <?= SelectFromArray($months, "month", "months") ?>
+              <input type='submit' value='Search'/>
+            </form>
+            <?= "<p>$result</p>" ?>
+          </div>
       </section>
     </main>
   </body>

@@ -3,7 +3,7 @@
 $myArray = [5, 10, 15, 20];
 
 function ExistInArray($array, $count, $value) {
-    for($i = 0; $i < count($array); $i++) {
+    for ($i = 0; $i < count($array); $i++) {
         if ($array[$i] === $value) {
             return $i;
         }

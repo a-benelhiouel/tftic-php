@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      h1,
+      h2,
+      h3 {
+        margin: 1ch auto;
+      }
+      main {
+        display: grid;
+        box-sizing: border-box;
+        grid:
+          repeat(auto-fit, minmax(30ch, 1fr))
+          / repeat(auto-fit, minmax(30ch, 1fr));
+        gap: 1ch;
+        padding: 1ch;
+        margin: 1ch;
+      }
+      section {
+        border: thin solid black;
+      }
+      section > form:not(h3) {
+        display: inline;
+      }
+      div.search {
+        display: flex;
+        justify-content: space-evenly;
+        align-content: center;
+        padding: 1ch;
+      }
+      div.search > * {
+        margin: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        display: grid;
+        gap: 1ch;
+        padding: 1ch;
+        margin: 1ch;
+        justify-items: center;
+      }
+      table {
+        border: thick solid darkgreen;
+        margin: 4ch;
+      }
+      table tr th {
+        border: thin solid darkblue;
+        background: lightgray;
+        font-weight: bold;
+      }
+      table tr td {
+        border: thin solid darkred;
+        min-width: 3ch;
+        text-align: center;
+      }
+    </style>
+    <title>projet 3_function</title>
+  </head>
+  <body>
+    <h2>projet 3_function</h2>
+    <h3>Le calendrier</h3>
+    <main class="main-content">
+      <section class="calendar">
+        <h3>Voici le calendrier avec le nombre de jour par mois.</h3>
+        <table>
+          <tbody>
+            <tr>
+              <th>Mois de l'année</th><th>Jours par mois</th>
+            </tr>
+            <tr>
+              <td>Janvier</td>
+            </tr>
+            <tr>
+              <td>Février</td>
+            </tr>
+            <tr>
+              <td>Mars</td>
+            </tr>
+            <tr>
+              <td>Avril</td>
+            </tr>
+            <tr>
+              <td>Mai</td>
+            </tr>
+            <tr>
+              <td>Juin</td>
+            </tr>
+            <tr>
+              <td>Juillet</td>
+            </tr>
+            <tr>
+              <td>Aout</td>
+            </tr>
+            <tr>
+              <td>Septembre</td>
+            </tr>
+            <tr>
+              <td>Octobre</td>
+            </tr>
+            <tr>
+              <td>Novembre</td>
+            </tr>
+            <tr>
+              <td>Décembre</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section class="day-in-month">
+        <h3>Rechercher le nombre de jour par mois :</h3>
+        <div class="search">
+          <form action="#" method="post">
+            <input type="submit" value="Search" />
+          </form>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

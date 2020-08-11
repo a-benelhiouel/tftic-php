@@ -1,3 +1,72 @@
+<?php
+
+$myTab = [20, 5, 24, 19, 18, 17, 16, 7,9, 15, 11, 13, 21];
+
+$options = ["-", "biggest", "smallest", "ascending", "descending"];
+
+function TableFromArray(array $array, array $header = [], $column = false) {
+    $table = "<table>";
+    for($i = 0; $i < count($header); $i++) {
+      $table .= ($i === 0 ? '<thead><tr>' : '') . "<th>$header[$i]</th>" . ($i === count($header) -1 ? '</tr></thead>' : '');
+    };
+    
+    foreach($array as $value) {
+        $table .= ($column ? '<tr>' : '') . "<td>$value</td>" . ($column ? '</tr>' : '');
+    };
+    $table .= "</table>";
+  
+    return $table;
+  }
+
+function SelectFromArray(array $array, string $name, string $id) {
+    echo '<br>$name : ' . $name;
+    echo '<br>$_POST[$name] : ' . $_POST[$name];
+    echo '<br>$array[$_POST[$name]] : ' . $array[$_POST[$name]];
+    echo "<br>";
+    
+    $select = "
+    <label for=$id>$name</label>
+    <select name=$name id=$id>";
+        
+    $selected = isset($_POST[$name]) ? $_POST[$name] : 0;
+    for($i=0; $i < count($array); $i++) {
+        $select .= "<option value=" . ($i) . ($selected === $i ? ' selected' : '') . " >" . ($array[$i]) . "</option>";
+    }
+    $select .= "</select>";
+
+    return $select;
+}
+
+function SortedArray(array $array, $desc = false) {
+    $desc ? rsort($array) : sort($array);
+    return $array;
+}
+
+if(isset($_POST["option"])) {
+    $option = $options[$_POST["option"]];
+    $output = '<h3>Result :</h3>';
+    
+    switch($option) {
+        case "biggest":
+            $output = '<p>The biggest number in the array is '  . max($myTab) . '</p>';
+            break;
+        case "smallest":
+            $output = '<p>The smallest number in the array is '  . min($myTab) . '</p>';
+            break;
+        case "ascending":
+            $output .= TableFromArray(SortedArray($myTab));
+            break;
+        case "descending":
+            $output .= TableFromArray(SortedArray($myTab, true));
+            break;
+        default:
+            $output = "<p>Select an option in the list</p><br>";
+    }
+} else {
+    $output = "";
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,136 +76,39 @@
     *{
         box-sizing: border-box;
     }
-    table {
-	    display: table;
-        border: medium solid darkblue;
+    body {
+        display: grid;
+        gap: 1ch;
+        padding: 1ch;
+        margin: 1ch;
+        justify-items: center;
     }
-    table tr {
-        border: medium solid darkblue;
+    table {
+        border: thick solid darkgreen;
+        margin: 4ch;
     }
     table tr td {    
         border: thin solid darkred;
-        min-width: 4ch;
+        min-width: 3ch;
+        text-align: center;
     }
     </style>
-    <title>Exo6.12a</title>
+    <title>projet 1</title>
   </head>
   <body>
-    <h2>Exo6.12a</h2>
-    <?php
-
-
-    $bigger = 0;
-    $smaller = 0;
-
-    $myTab = [20, 5, 24, 19, 18, 17, 16, 7,9, 15, 11, 13, 21];
-
-    $selectedBigger = "";
-    $selectedSmaller = "";
-    $selectedAsc = "";
-    $selectedDesc = "";
-
-    echo "<h3>Unsorted Array</h3><table><tr>";
-    foreach($myTab as $n) {
-      echo "<td>$n</td>";
-    };
-    echo "</tr></table><br/>";
-
-    if(isset($_POST["action"])) {
-        $action = $_POST["action"];
-    
-        $selectedBigger = $action === "bigger" ? "selected" : "";
-        $selectedSmaller = $action === "smaller" ? "selected" : "";
-        $selectedAsc = $action === "asc" ? "selected" : "";
-        $selectedDesc = $action === "desc" ? "selected" : "";
-    }
-    echo "
-    <form action='#' method='post'>
-        <label for='action'>Action</label>
-        <select name='action' id='action'>
-            <option value=''></option>
-            <option value='bigger' $selectedBigger >Bigger</option>
-            <option value='smaller' $selectedSmaller >Smaller</option>
-            <option value='asc' $selectedAsc >Sort ascending</option>
-            <option value='desc' $selectedDesc >Sort descending</option>
-        </select>
-        <input type='submit' value='Search'/>
-    </form>
-    ";
-
-    if(isset($_POST["action"]) && ($_POST["action"]) != "") {
-    $action = $_POST["action"];
-
-    $selectedBigger = $action === "bigger" ? "selected" : "";
-    $selectedSmaller = $action === "smaller" ? "selected" : "";
-    $selectedAsc = $action === "asc" ? "selected" : "";
-    $selectedDesc = $action === "desc" ? "selected" : "";
-
-    //echo "<script>console.log($action)</script>";
-
-    switch($action) {
-        case "bigger":
-            foreach($myTab as $n) {
-                $bigger = $bigger > $n ? $bigger : $n;
-            }
-            echo "Bigger : $bigger";
-            echo "<br/>";
-        break;
-        case "smaller":
-            foreach($myTab as $n) {
-                $bigger = $bigger > $n ? $bigger : $n;
-            }
-            $smaller = $bigger;
-            foreach($myTab as $n) {
-                $smaller = $smaller < $n ? $smaller : $n;
-            }
-            echo "Smaller : $smaller";
-            break;
-        case "asc":
-            do {
-                $sort = false;
-            
-                for($i = 1; $i < count($myTab); $i++) {
-                    if($myTab[$i] < $myTab[$i-1]) {
-                        $sort = true;
-                        $temp = $myTab[$i-1];
-                        $myTab[$i-1] = $myTab[$i];
-                        $myTab[$i] = $temp;
-                    }
-                }
-            } while ($sort);
-            
-            echo "<h3>Ascending order sorted Array</h3><table><tr>";
-            foreach($myTab as $n) {
-              echo "<td>$n</td>";
-            };
-            echo "</tr></table>";
-            break;
-        case "desc":
-            do {
-                $sort = false;
-            
-                for($i = count($myTab) - 2; $i >= 0; $i--) {
-                    if($myTab[$i] < $myTab[$i+1]) {
-                        $sort = true;
-                        $temp = $myTab[$i+1];
-                        $myTab[$i+1] = $myTab[$i];
-                        $myTab[$i] = $temp;
-                    }
-                }
-            } while ($sort);
-            
-            echo "<h3>Descending order sorted Array</h3><table><tr>";
-            foreach($myTab as $n) {
-              echo "<td>$n</td>";
-            };
-            echo "</tr></table>";
-            break;
-        default:
-                echo "<p>Please select an action in the list</p><br>";
-        }
-    }
-
-?>
+    <h2>projet 1</h2>
+    <section class="my-array">
+        <h3>My array :</h3>
+        <?= TableFromArray($myTab) ?>
+    </section>
+    <section class="options">
+        <form action='#' method='post'>
+        <?= SelectFromArray($options, "option", "options") ?>
+        <input type='submit' value='GO'/>
+        </form>
+    </section>
+    <section class="result">
+        <?= $output ?>
+    </section>
   </body>
 </html>
